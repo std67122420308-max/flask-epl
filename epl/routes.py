@@ -10,8 +10,8 @@ def index():
 def all_clubs():
   clubs = db.session.scalars(db.select(Club)).all()
   return render_template('clubs/index.html',
-                        title='Clubs Page',
-                        clubs=clubs)
+                         title='Clubs Page',
+                         clubs=clubs)
 
 @app.route('/clubs/new', methods=['GET', 'POST'])
 def new_club():
@@ -28,7 +28,7 @@ def new_club():
     return redirect(url_for('all_clubs'))
   
   return render_template('clubs/new_club.html',
-                        title='New Club Page')
+                         title='New Club Page')
 
 @app.route('/clubs/search', methods=['GET', 'POST'])
 def search_club():
@@ -43,8 +43,8 @@ def search_club():
 def info_club(id):
   club = db.session.get(Club, id)
   return render_template('clubs/info_club.html',
-                        title='Info Club Page',
-                        club=club)
+                         title='Info Club Page',
+                         club=club)
 
 @app.route('/clubs/<int:id>/update', methods=['GET','POST'])
 def update_club(id):
@@ -67,15 +67,15 @@ def update_club(id):
     return redirect(url_for('all_clubs'))
   
   return render_template('clubs/update_club.html',
-                        title='Update Club Page',
-                        club=club)
+                         title='Update Club Page',
+                         club=club)
 
 @app.route('/players')
 def all_players():
   players = db.session.scalars(db.select(Player)).all()
   return render_template('players/index.html',
-                        title='Players Page',
-                        players=players)
+                         title='Players Page',
+                         players=players)
 
 @app.route('/players/new', methods=['GET', 'POST'])
 def new_player():
@@ -97,8 +97,8 @@ def new_player():
     return redirect(url_for('all_players'))
 
   return render_template('players/new_player.html',
-                        title='New Player Page',
-                        clubs=clubs)
+                         title='New Player Page',
+                         clubs=clubs)
 
 @app.route('/players/search', methods=['POST'])
 def search_player():
@@ -106,5 +106,5 @@ def search_player():
     player_name = request.form['player_name']
     players = db.session.scalars(db.select(Player).where(Player.name.like(f'%{player_name}%'))).all()
     return render_template('players/search_player.html',
-                          title='Search Player Page',
-                          players=players)
+                           title='Search Player Page',
+                           players=players)
