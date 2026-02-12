@@ -20,22 +20,13 @@ def new_club():
     year = int(request.form['year'])
     logo = request.form['logo']
 
-    existing_club = db.session.scalar(
-        db.select(Club).where(Club.name == name)
-    )
-
-    if existing_club:
-        flash('Club already exists!', 'danger')
-        return redirect(url_for('clubs.new_club'))
-
     club = Club(name=name, stadium=stadium, year=year, logo=logo)
-
     db.session.add(club)
     db.session.commit()
 
-    flash('Add new club successfully', 'success')
+    flash('add new club successfully', 'success')
     return redirect(url_for('clubs.index'))
-
+  
   return render_template('clubs/new_club.html',
                          title='New Club Page')
 
@@ -45,15 +36,15 @@ def search_club():
     club_name = request.form['club_name']
     clubs = db.session.scalars(db.select(Club).where(Club.name.like(f'%{club_name}%'))).all()
     return render_template('clubs/search_club.html',
-                            title='Search Club Page',
-                            clubs=clubs)
+                           title='Search Club Page',
+                           clubs=clubs)
   
 @clubs_bp.route('/clubs/<int:id>/info')
 def info_club(id):
   club = db.session.get(Club, id)
   return render_template('clubs/info_club.html',
-                          title='Club Info Page',
-                          club=club)
+                         title='Club Info Page',
+                         club=club)
 
 @clubs_bp.route('/clubs/<int:id>/update', methods=['GET', 'POST'])
 def update_club(id):
@@ -76,5 +67,5 @@ def update_club(id):
     return redirect(url_for('clubs.index'))
   
   return render_template('clubs/update_club.html',
-                          title='Update Club Page',
-                          club=club)
+                         title='Update Club Page',
+                         club=club)
